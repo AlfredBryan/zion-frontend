@@ -1,0 +1,78 @@
+.brand_logo {
+    font-family: "Ma Shan Zheng", cursive;
+    color: blueviolet !important;
+    font-size: 2.5em;
+    margin-left: 1em;
+    font-weight: 900;
+}
+
+.logo_resize {
+    width: 3em;
+    height: 3em;
+    border-radius: 100%;
+}
+
+.navbar_adjust {
+    background-color: rgb(27, 24, 24) !important;
+    border-bottom: 1px solid black;
+}
+
+.nav_items {
+    color: white !important;
+    margin-left: 2em;
+}
+
+.nav_items a {
+    text-decoration: none;
+    color: white;
+}
+
+
+
+.navbar-toggler {
+    background-color: white;
+}
+
+.cart_details {
+    position: relative;
+}
+
+.cart {
+    position: absolute;
+    font-size: 1.3em;
+}
+
+
+.cart_item {
+    position: absolute;
+    top: -40%;
+    left: 65%;
+    width: 0.8em;
+    height: 0.8em;
+    background-color: #28a745;
+    border-radius: 100%;
+}
+
+
+.cart_item p {
+    color: #ffffff;
+    text-align: center;
+    padding: 0.3em;
+    font-size: 0.5em;
+    font-weight: 900;
+}
+
+@media only screen and (max-width: 400px) {
+    .nav_items {
+        margin-left: 0em !important;
+        margin-top: 0.5em;
+    }
+
+    .nav_input {
+        padding-top: 2em;
+    }
+
+    .brand_logo {
+        margin-left: 0em;
+    }
+}
