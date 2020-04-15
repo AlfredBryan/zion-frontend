@@ -10,7 +10,7 @@ const initialState = {
   error: null,
 };
 
-export default function designs(state = initialState, action) {
+export default function products(state = initialState, action) {
   switch (action.type) {
     case FETCH_PRODUCTS_BEGINS:
       return {
