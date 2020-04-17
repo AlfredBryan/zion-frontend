@@ -17,6 +17,7 @@ main .card {
 }
 
 .btn_login {
+    height: 2.5em !important;
     background: #780206;
     /* fallback for old browsers */
     background: -webkit-linear-gradient(to right,
@@ -32,8 +33,4 @@ main .card {
 .login_input {
     background-color: #3475 !important;
     color: white !important;
-}
-
-::placeholder {
-    color: white;
 }

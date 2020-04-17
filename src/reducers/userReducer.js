@@ -5,9 +5,11 @@ import {
   USER_REGISTER_BEGINS,
   USER_REGISTER_SUCCESSFUL,
   USER_REGISTER_FAILURE,
+  GET_USER,
 } from "../actions/types";
 
 const initialState = {
+  user: "",
   name: "",
   phone: "",
   state: "",
@@ -64,6 +66,11 @@ export default function user(state = initialState, action) {
         ...state,
         loading: false,
         error: action.payload.error,
+      };
+    case GET_USER:
+      return {
+        ...state,
+        user: action.payload.user,
       };
 
     default:

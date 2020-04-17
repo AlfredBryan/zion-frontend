@@ -5,6 +5,7 @@ import {
   USER_REGISTER_BEGINS,
   USER_REGISTER_SUCCESSFUL,
   USER_REGISTER_FAILURE,
+  GET_USER,
 } from "./types";
 import axios from "axios";
 
@@ -51,6 +52,11 @@ export const userLoginFailure = (error) => ({
   payload: { error },
 });
 
+export const fetchUser = (user) => ({
+  type: GET_USER,
+  payload: { user },
+});
+
 export function userRegister({ name, state, address, phone, password }) {
   return (dispatch) => {
     dispatch(userRegisterBegin());
@@ -58,6 +64,7 @@ export function userRegister({ name, state, address, phone, password }) {
       .post(`${apiUrl}/create_user`, { name, state, address, phone, password })
       .then((response) => {
         dispatch(userRegisterSuccess(response));
+        localStorage.setItem("token", response.data.token);
       })
       .catch((error) => dispatch(userRegisterFailure(error)));
   };
@@ -70,7 +77,23 @@ export function userLogin({ phone, password }) {
       .post(`${apiUrl}/user_login`, { phone, password })
       .then((response) => {
         dispatch(userLoginSuccess(response));
+        localStorage.setItem("token", response.data.token);
       })
-      .catch((error) => dispatch(userLoginFailure(error)));
+      .catch((error) => dispatch(userLoginFailure(error.message)));
+  };
+}
+
+export function getUser() {
+  const token = localStorage.getItem("token");
+  return (dispatch) => {
+    axios
+      .get(`${apiUrl}/user`, {
+        headers: {
+          token: token,
+        },
+      })
+      .then((response) => {
+        dispatch(fetchUser(response.data.data));
+      });
   };
 }

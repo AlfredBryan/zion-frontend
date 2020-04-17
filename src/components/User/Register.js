@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
+import { userRegister } from "../../actions/userActions";
+import Spinner from "../hoc/Spinner";
 import states from "../../state";
 import "./style.css";
 
@@ -19,19 +22,33 @@ class Register extends Component {
     });
   };
 
+  onSignUp = (e) => {
+    e.preventDefault();
+    const data = this.state;
+    this.props.dispatch(userRegister(data));
+  };
+
   render() {
     const { name, state, address, phone, password } = this.state;
+    const { loading, error } = this.props;
+    console.log(error);
     return (
       <div>
         <main className="container my-5">
           <div className="row">
             <section className="col-md-6 my-5 offset-md-3">
               <div className="card shadow p-5">
-                <form>
+                <form onSubmit={this.onSignUp}>
                   <h3 className="text-center text-uppercase mb-4">SIGN UP</h3>
                   <hr className="login_hr" />
-
-                  <div class="form-group">
+                  {error !== null ? (
+                    <p style={{ color: "red" }} className="mt-3">
+                      please enter all fields ***
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                  <div className="form-group">
                     <label>Full Name</label>
                     <input
                       type="text"
@@ -43,12 +60,12 @@ class Register extends Component {
                     />
                   </div>
 
-                  <div class="form-group">
+                  <div className="form-group">
                     <label>Phone</label>
                     <input
-                      type="phone"
+                      type="text"
                       placeholder="Phone Number"
-                      class="form-control login_input"
+                      className="form-control login_input"
                       name="phone"
                       value={phone}
                       onChange={this.handleChange}
@@ -58,7 +75,6 @@ class Register extends Component {
                   <div className="form-group">
                     <label>State</label>
                     <select
-                      id="user_time_zone"
                       name="state"
                       className="form-control login_input"
                       value={state}
@@ -73,12 +89,12 @@ class Register extends Component {
                     </select>
                   </div>
 
-                  <div class="form-group">
+                  <div className="form-group">
                     <label>Address</label>
-                    <input
+                    <textarea
                       type="text"
                       placeholder="Address"
-                      class="form-control login_input"
+                      className="form-control login_input"
                       name="address"
                       value={address}
                       onChange={this.handleChange}
@@ -97,8 +113,11 @@ class Register extends Component {
                     />
                   </div>
 
-                  <button className="btn btn_login btn-block btn-secondary rounded-pill mt-3">
-                    Sign Up
+                  <button
+                    type="submit"
+                    className="btn btn_login btn-block btn-secondary rounded-pill mt-3"
+                  >
+                    {loading ? <Spinner /> : "Sign Up"}
                   </button>
 
                   <p className="mt-3 text-white">
@@ -117,4 +136,9 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = (state) => ({
+  loading: state.user.loading,
+  error: state.user.error,
+});
+
+export default connect(mapStateToProps)(Register);

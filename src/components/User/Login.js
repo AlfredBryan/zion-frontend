@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
+import { userLogin } from "../../actions/userActions";
+import Spinner from "../hoc/Spinner";
 import "./style.css";
 
 class Login extends Component {
@@ -15,49 +18,65 @@ class Login extends Component {
     });
   };
 
+  onLogin = (e) => {
+    e.preventDefault();
+    const data = this.state;
+    this.props.dispatch(userLogin(data));
+  };
+
   render() {
     const { phone, password } = this.state;
+    const { loading, error } = this.props;
     return (
       <div>
-        <main class="container my-5">
-          <div class="row">
-            <section class="col-md-6 my-5 offset-md-3">
-              <div class="card shadow p-5">
-                <form>
-                  <h3 class="text-center text-uppercase mb-4">Login</h3>
+        <main className="container my-5">
+          <div className="row">
+            <section className="col-md-6 my-5 offset-md-3">
+              <div className="card shadow p-5">
+                <form onSubmit={this.onLogin}>
+                  <h3 className="text-center text-uppercase mb-4">Login</h3>
                   <hr className="login_hr" />
-
-                  <div class="form-group">
+                  {error !== null ? (
+                    <p style={{ color: "red" }} className="mt-3">
+                      invalid user or password
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                  <div className="form-group">
                     <label>Phone</label>
                     <input
-                      type="phone"
+                      type="text"
                       placeholder="Phone Number"
-                      class="form-control login_input"
+                      className="form-control login_input"
                       name="phone"
                       value={phone}
                       onChange={this.handleChange}
                     />
                   </div>
 
-                  <div class="form-group">
+                  <div className="form-group">
                     <label>Password</label>
                     <input
                       type="password"
                       placeholder="Password"
-                      class="form-control login_input"
+                      className="form-control login_input"
                       name="password"
                       value={password}
                       onChange={this.handleChange}
                     />
                   </div>
 
-                  <button class="btn btn_login btn-block btn-secondary rounded-pill mt-3">
-                    Login
+                  <button
+                    type="submit"
+                    className="btn btn_login btn-block btn-secondary rounded-pill mt-3"
+                  >
+                    {loading ? <Spinner /> : "Login"}
                   </button>
 
-                  <p class="mt-3 text-white">
+                  <p className="mt-3 text-white">
                     Don't have an Account ?
-                    <Link to="/sign_up" class="text-white">
+                    <Link to="/sign_up" className="text-white">
                       Create Here
                     </Link>
                   </p>
@@ -71,4 +90,9 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+  loading: state.user.loading,
+  error: state.user.error,
+});
+
+export default connect(mapStateToProps)(Login);

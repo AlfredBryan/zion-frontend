@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Girassol&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap");
 
 .home_main {
     background-size: cover;
@@ -21,7 +21,7 @@
 }
 
 .desc h2 {
-    font-family: 'Comic Neue', cursive;
+    font-family: "Comic Neue", cursive;
     font-size: 6em;
     text-align: center;
     color: white;
@@ -34,7 +34,7 @@
 }
 
 .typed-info {
-    font-family: 'Girassol', cursive;
+    font-family: "Girassol", cursive;
     font-size: 2em;
 }
 
@@ -46,7 +46,7 @@
 .section-title {
     text-align: center;
     color: white;
-    font-family: 'Oswald', sans-serif;
+    font-family: "Oswald", sans-serif;
 }
 
 .design_header {
@@ -57,6 +57,22 @@
 .header_underline {
     border: 2px solid #28a745;
     width: 3em;
+}
+
+.product_img {
+    width: 21.75em;
+    height: 20em;
+}
+
+.add_cart {
+    width: 100% !important;
+}
+
+.display_product {
+    padding-bottom: 2em !important;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 10s linear;
 }
 
 @media only screen and (max-width: 400px) {
@@ -85,6 +101,6 @@
     }
 
     .design_header h5 {
-     font-size: 2em;
+        font-size: 2em;
     }
 }

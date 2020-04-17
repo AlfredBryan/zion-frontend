@@ -5,6 +5,10 @@ import {
   ADD_PRODUCTS_BEGINS,
   ADD_PRODUCTS_SUCCESSFUL,
   ADD_PRODUCTS_FAILURE,
+  ADD_TO_CART,
+  FETCH_CART_BEGINS,
+  FETCH_CART_SUCCESSFUL,
+  FETCH_CART_FAILURE,
 } from "./types";
 import axios from "axios";
 import FormData from "form-data";
@@ -46,13 +50,36 @@ export const addProductFailure = (error) => ({
   payload: { error },
 });
 
+export const addingToCart = (data) => {
+  return {
+    type: ADD_TO_CART,
+    payload: {
+      _id: data._id,
+    },
+  };
+};
+
+export const fetchCartBegins = () => ({
+  type: FETCH_CART_BEGINS,
+});
+
+export const fetchCartSuccess = (cart) => ({
+  type: FETCH_CART_SUCCESSFUL,
+  payload: { cart },
+});
+
+export const fetchCartFailure = (error) => ({
+  type: FETCH_CART_FAILURE,
+  payload: { error },
+});
+
 export function fetchProducts() {
   return (dispatch) => {
     dispatch(fetchProductBegins());
     axios
       .get(`${apiUrl}/products`)
       .then((response) => {
-        dispatch(fetchProductSuccess(response.data));
+        dispatch(fetchProductSuccess(response.data.data));
       })
       .catch((error) => dispatch(fetchProductFailure(error)));
   };
@@ -71,7 +98,10 @@ export function addProduct({ image, product_name, description, price }) {
       url: `${apiUrl}/add_product`,
       data: formData,
       config: {
-        headers: { "Content-Type": "multipart/form-data", token: token },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: token,
+        },
       },
     })
       .then((response) => {
@@ -80,5 +110,43 @@ export function addProduct({ image, product_name, description, price }) {
       .catch((error) => {
         dispatch(addProductFailure(error));
       });
+  };
+}
+
+export function addToCart(id) {
+  return (dispatch) => {
+    axios
+      .post(
+        `${apiUrl}/product_select/${id}`,
+        {},
+        {
+          headers: {
+            token: token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        dispatch(addingToCart(response.data));
+      })
+      .catch((error) => {
+        throw error;
+      });
+  };
+}
+
+export function fetchCart() {
+  return (dispatch) => {
+    dispatch(fetchCartBegins());
+    axios
+      .get(`${apiUrl}/cart`, {
+        headers: {
+          token: token,
+        },
+      })
+      .then((response) => {
+        dispatch(fetchCartSuccess(response.data.data));
+      })
+      .catch((error) => dispatch(fetchCartFailure(error)));
   };
 }
