@@ -93,17 +93,23 @@ export function addProduct({ image, product_name, description, price }) {
     formData.set("description", description);
     formData.set("price", price);
     formData.append("image", image);
-    axios({
-      method: "post",
-      url: `${apiUrl}/add_product`,
-      data: formData,
-      config: {
+    // axios({
+    //   method: "post",
+    //   url: `${apiUrl}/add_product`,
+    //   data: formData,
+    //   config: {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //       "Authorization": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOWIxZTNlMzMzZWEwMmQ3OGQ5MTEyYyIsImlzX2FkbWluIjp0cnVlLCJpYXQiOjE1ODcyMjQxMjcsImV4cCI6MTU4NzQ4MzMyN30.bQcJP7HcXiuRqUgJqsnJ3AzX_3BcCjRo7JX9NqnzLow',
+    //     },
+    //   },
+    // })
+      axios.post(`${apiUrl}/add_product`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          token: token,
+          "token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOWIxZTNlMzMzZWEwMmQ3OGQ5MTEyYyIsImlzX2FkbWluIjp0cnVlLCJpYXQiOjE1ODcyMjQxMjcsImV4cCI6MTU4NzQ4MzMyN30.bQcJP7HcXiuRqUgJqsnJ3AzX_3BcCjRo7JX9NqnzLow',
         },
-      },
-    })
+      })
       .then((response) => {
         console.log(response);
         dispatch(addProductSuccess(response.data));
