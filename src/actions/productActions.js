@@ -105,6 +105,7 @@ export function addProduct({ image, product_name, description, price }) {
       },
     })
       .then((response) => {
+        console.log(response);
         dispatch(addProductSuccess(response.data));
       })
       .catch((error) => {
@@ -145,7 +146,7 @@ export function fetchCart() {
         },
       })
       .then((response) => {
-        dispatch(fetchCartSuccess(response.data.data));
+        dispatch(fetchCartSuccess(response.data));
       })
       .catch((error) => dispatch(fetchCartFailure(error)));
   };

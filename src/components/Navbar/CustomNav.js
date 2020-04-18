@@ -39,7 +39,11 @@ class CustomNav extends Component {
             fixed="top"
           >
             <NavbarBrand href="/">
-              <img className="logo_resize" src={require("../../images/logo.jpeg")} alt="logo"/>
+              <img
+                className="logo_resize"
+                src={require("../../images/logo.jpeg")}
+                alt="logo"
+              />
             </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
@@ -62,15 +66,15 @@ class CustomNav extends Component {
                   </Link>
                 </NavItem>
               </Nav>
-              <form class="form-inline my-2 my-lg-0 nav_input">
+              <form className="form-inline my-2 my-lg-0 nav_input">
                 <input
-                  class="form-control mr-sm-2"
+                  className="form-control mr-sm-2"
                   type="search"
                   placeholder="Search Products"
                   aria-label="Search"
                 />
                 <button
-                  class="btn btn-outline-success my-2 my-sm-0"
+                  className="btn btn-outline-success my-2 my-sm-0"
                   type="submit"
                 >
                   Search
