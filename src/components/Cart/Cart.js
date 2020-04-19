@@ -8,7 +8,7 @@ class Cart extends Component {
   state = {
     cart: [],
     loading: true,
-    count: 0,
+    count: 1,
     itemTotal: 0,
   };
 
@@ -99,7 +99,7 @@ class Cart extends Component {
                               <div>
                                 <span
                                   className="btn btn-black mx-1"
-                                  onClick={() => this.decrement()}
+                                  onClick={() => this.decrement(newProduct._id)}
                                 >
                                   -
                                 </span>
