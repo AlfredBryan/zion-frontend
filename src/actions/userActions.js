@@ -57,11 +57,18 @@ export const fetchUser = (user) => ({
   payload: { user },
 });
 
-export function userRegister({ name, state, address, phone, password }) {
+export function userRegister({ name, state, address, phone, email, password }) {
   return (dispatch) => {
     dispatch(userRegisterBegin());
     axios
-      .post(`${apiUrl}/create_user`, { name, state, address, phone, password })
+      .post(`${apiUrl}/create_user`, {
+        name,
+        state,
+        address,
+        phone,
+        email,
+        password,
+      })
       .then((response) => {
         dispatch(userRegisterSuccess(response));
         localStorage.setItem("token", response.data.token);

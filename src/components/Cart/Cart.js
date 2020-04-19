@@ -8,12 +8,14 @@ class Cart extends Component {
   state = {
     cart: [],
     loading: true,
-    count: 1,
+    count: {},
     itemTotal: 0,
   };
 
   increment = (id) => {
-  
+    this.setState({ count: { [id]: this.state.count[id] + 1 } });
+    //'this.state.count[id] += 1;
+    console.log(this.state.count[id], "inc");
   };
 
   viewCart = () => {
@@ -39,7 +41,8 @@ class Cart extends Component {
   };
 
   componentDidMount() {
-    this.fetch = setInterval(() => this.viewCart(), 1000);
+    this.viewCart();
+    // this.fetch = setInterval(() => this.viewCart(), 1000);
   }
 
   componentWillMount() {
@@ -47,7 +50,7 @@ class Cart extends Component {
   }
 
   render() {
-    const { cart, loading } = this.state;
+    const { cart, loading, count } = this.state;
     console.log(cart);
     if (loading) {
       return (
@@ -80,6 +83,9 @@ class Cart extends Component {
                       product.map((newProduct) => (
                         <div className="row my-2 text-capitalize  text-center">
                           <div className="col-10 mx-auto single_product col-lg-2">
+                            {count[newProduct._id] === undefined
+                              ? (count[newProduct._id] = 1)
+                              : ""}
                             <img
                               src={newProduct.image}
                               style={{ width: "5rem", height: "5rem" }}
@@ -103,10 +109,12 @@ class Cart extends Component {
                                 >
                                   -
                                 </span>
-                                <span className="btn btn-black mx-1">{}</span>
+                                <span className="btn btn-black mx-1">
+                                  {count}
+                                </span>
                                 <span
                                   className="btn btn-black mx-1"
-                                  onClick={() => this.increment()}
+                                  onClick={() => this.increment(newProduct._id)}
                                 >
                                   +
                                 </span>
@@ -117,12 +125,16 @@ class Cart extends Component {
                             <div className="cart-icon">
                               <i
                                 className="fa fa-trash"
-                                onClick={() => this.removeItem()}
+                                onClick={() => this.removeItem(newProduct._id)}
                               />
                             </div>
                           </div>
                           <div className="col-10 adjust_btn text-white mx-auto col-lg-2">
-                            <strong>item total : ₦ {}</strong>
+                            <strong>
+                              item total : ₦
+                              {newProduct.price *
+                                this.state.count[newProduct._id]}
+                            </strong>
                           </div>
                         </div>
                       ))

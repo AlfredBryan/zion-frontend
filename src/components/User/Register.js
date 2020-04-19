@@ -13,6 +13,7 @@ class Register extends Component {
     state: "",
     address: "",
     phone: "",
+    email: "",
     password: "",
   };
 
@@ -29,7 +30,7 @@ class Register extends Component {
   };
 
   render() {
-    const { name, state, address, phone, password } = this.state;
+    const { name, state, address, phone, email, password } = this.state;
     const { loading, error } = this.props;
     console.log(error);
     return (
@@ -68,6 +69,18 @@ class Register extends Component {
                       className="form-control login_input"
                       name="phone"
                       value={phone}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="text"
+                      placeholder="Email Address"
+                      className="form-control login_input"
+                      name="email"
+                      value={email}
                       onChange={this.handleChange}
                     />
                   </div>
