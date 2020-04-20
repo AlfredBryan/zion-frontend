@@ -20,14 +20,13 @@
 .nav_items {
     color: white !important;
     margin-left: 2em;
+    margin-top: 0.5em;
 }
 
 .nav_items a {
     text-decoration: none;
     color: white;
 }
-
-
 
 .navbar-toggler {
     background-color: white;
@@ -53,13 +52,27 @@
     border-radius: 100%;
 }
 
-
 .cart_item p {
     color: #ffffff;
     text-align: center;
     padding: 0.3em;
     font-size: 0.5em;
     font-weight: 900;
+}
+
+.user-icon {
+    font-size: 1.3em;
+    color: white;
+    margin-left: 3em;
+}
+
+.logout_button {
+    padding-right: 0.5em;
+    color: black;
+}
+
+.fa-sign-in {
+    color: black;
 }
 
 @media only screen and (max-width: 400px) {

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import axios from "axios";
 
-import { userRegister } from "../../actions/userActions";
 import Spinner from "../hoc/Spinner";
 import states from "../../state";
 import "./style.css";
@@ -15,6 +14,8 @@ class Register extends Component {
     phone: "",
     email: "",
     password: "",
+    loading: false,
+    error: null,
   };
 
   handleChange = (e) => {
@@ -25,14 +26,50 @@ class Register extends Component {
 
   onSignUp = (e) => {
     e.preventDefault();
-    const data = this.state;
-    console.log(data);
-    this.props.dispatch(userRegister(data));
+    const { name, state, address, phone, email, password } = this.state;
+    this.setState({
+      loading: true,
+    });
+    axios
+      .post("https://zion-backend.herokuapp.com/api/v1/create_user", {
+        phone,
+        password,
+        name,
+        state,
+        address,
+        email,
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          localStorage.setItem("token", res.data.token);
+          this.setState({
+            loading: false,
+          });
+          this.props.history.push("/");
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          error: "invalid user or password",
+          loading: false,
+        });
+      });
+  };
+  onLogin = (e) => {
+    e.preventDefault();
   };
 
   render() {
-    const { name, state, address, phone, email, password } = this.state;
-    const { loading, error } = this.props;
+    const {
+      name,
+      state,
+      address,
+      phone,
+      email,
+      password,
+      loading,
+      error,
+    } = this.state;
     return (
       <div>
         <main className="container my-5">
@@ -149,9 +186,4 @@ class Register extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loading: state.user.loading,
-  error: state.user.error,
-});
-
-export default connect(mapStateToProps)(Register);
+export default Register;

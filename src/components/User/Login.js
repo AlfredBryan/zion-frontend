@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import axios from "axios";
 
-import { userLogin } from "../../actions/userActions";
 import Spinner from "../hoc/Spinner";
 import "./style.css";
 
@@ -10,6 +9,8 @@ class Login extends Component {
   state = {
     phone: "",
     password: "",
+    loading: false,
+    error: null,
   };
 
   handleChange = (e) => {
@@ -20,13 +21,34 @@ class Login extends Component {
 
   onLogin = (e) => {
     e.preventDefault();
-    const data = this.state;
-    this.props.dispatch(userLogin(data));
+    const { phone, password } = this.state;
+    this.setState({
+      loading: true,
+    });
+    axios
+      .post("https://zion-backend.herokuapp.com/api/v1/user_login", {
+        phone,
+        password,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          localStorage.setItem("token", res.data.token);
+          this.setState({
+            loading: false,
+          });
+          this.props.history.push("/");
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          error: "invalid user or password",
+          loading: false,
+        });
+      });
   };
 
   render() {
-    const { phone, password } = this.state;
-    const { loading, error } = this.props;
+    const { phone, password, error, loading } = this.state;
     return (
       <div>
         <main className="container my-5">
@@ -90,9 +112,4 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loading: state.user.loading,
-  error: state.user.error,
-});
-
-export default connect(mapStateToProps)(Login);
+export default Login;

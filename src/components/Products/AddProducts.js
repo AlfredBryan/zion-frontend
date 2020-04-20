@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import axios from "axios";
 
-import { addProduct } from "../../actions/productActions";
 import Spinner from "../hoc/Spinner";
 import CustomNav from "../Navbar/CustomNav";
 import "./style.css";
@@ -12,6 +11,8 @@ class AddProducts extends Component {
     price: "",
     description: "",
     image: "",
+    loading: false,
+    error: null,
   };
 
   handleImageChange = (e) => {
@@ -26,19 +27,41 @@ class AddProducts extends Component {
     });
   };
 
-  postProduct = (e) => {
+  postProduct = async (e) => {
     e.preventDefault();
-    const data = this.state;
-    const { loading, error } = this.props;
-    this.props.dispatch(addProduct(data));
-    if (error === null) {
-      this.props.history.push("/");
-    }
+    const { product_name, price, description, image } = this.state;
+    this.setState({ loading: true });
+    const formData = new FormData();
+    formData.set("product_name", product_name);
+    formData.set("description", description);
+    formData.set("price", price);
+    formData.append("image", image);
+    axios({
+      method: "post",
+      url: "https://zion-backend.herokuapp.com/api/v1/add_product",
+      data: formData,
+      config: {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          this.setState({ loading: false });
+          this.props.history.push("/");
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          error: err,
+          loading: false,
+        });
+      });
   };
 
   render() {
-    const { product_name, price, description } = this.state;
-    const { loading, error } = this.props;
+    const { product_name, price, description, loading, error } = this.state;
     return (
       <React.Fragment>
         <CustomNav />
@@ -84,7 +107,7 @@ class AddProducts extends Component {
                 onChange={this.handleChange}
               ></textarea>
             </fieldset>
-            <button className="post_button">
+            <button type="submit" className="post_button">
               {loading ? <Spinner /> : "Post"}
             </button>
           </form>
@@ -94,9 +117,4 @@ class AddProducts extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loading: state.products.loading,
-  error: state.products.error,
-});
-
-export default connect(mapStateToProps)(AddProducts);
+export default AddProducts;

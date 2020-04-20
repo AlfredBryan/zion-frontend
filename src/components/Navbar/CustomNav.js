@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import axios from "axios";
 import {
   Collapse,
   Navbar,
@@ -7,6 +8,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from "reactstrap";
 
 import "./style.css";
@@ -17,17 +22,47 @@ class CustomNav extends Component {
     this.state = {
       isOpen: false,
       cart: [],
-      user: "",
     };
   }
 
-  toggle = () => {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
+  logOut = () => {
+    localStorage.clear("token");
+    this.props.history.push("/login");
   };
 
+  viewCart = () => {
+    const token = localStorage.getItem("token");
+    const products = [];
+    axios
+      .get("https://zion-backend.herokuapp.com/api/v1/cart", {
+        headers: {
+          token: token,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          res.data.map((cart) => products.push(cart.product));
+          this.setState({ cart: products, loading: false });
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          this.setState({ loading: false });
+        }
+      });
+  };
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.viewCart(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   render() {
+    const token = localStorage.getItem("token");
+    const { cart } = this.state;
     return (
       <React.Fragment>
         <div>
@@ -54,12 +89,36 @@ class CustomNav extends Component {
                 <NavItem className="nav_items">
                   <Link to="/about_us">About Us</Link>
                 </NavItem>
+
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    <i className="fa fa-user user-icon"></i>
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem>Profile</DropdownItem>
+
+                    <DropdownItem>
+                      {token ? (
+                        <div onClick={this.logOut}>
+                          <span className="logout_button">LogOut</span>
+                          <i className="fa fa-power-off"></i>
+                        </div>
+                      ) : (
+                        <Link to="/login">
+                          <span className="logout_button">Sign In</span>
+                          <i class="fa fa-sign-in"></i>
+                        </Link>
+                      )}
+                    </DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+
                 <NavItem className="nav_items">
                   <Link to="/cart">
                     <div className="cart_details">
                       <i className="fa fa-shopping-cart cart">
                         <div className="cart_item">
-                          <p>0</p>
+                          <p>{cart.length}</p>
                         </div>
                       </i>
                     </div>
@@ -88,4 +147,4 @@ class CustomNav extends Component {
   }
 }
 
-export default CustomNav;
+export default withRouter(CustomNav);

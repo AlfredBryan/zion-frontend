@@ -12,7 +12,6 @@ import {
 } from "./types";
 import axios from "axios";
 import FormData from "form-data";
-import { BrowserRouter } from "react-router-dom"
 
 const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
 const token = localStorage.getItem("token");
