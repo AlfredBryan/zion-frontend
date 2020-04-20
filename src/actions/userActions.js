@@ -70,6 +70,7 @@ export function userRegister({ name, state, address, phone, email, password }) {
         password,
       })
       .then((response) => {
+        console.log(response);
         dispatch(userRegisterSuccess(response));
         localStorage.setItem("token", response.data.token);
       })
@@ -83,6 +84,7 @@ export function userLogin({ phone, password }) {
     axios
       .post(`${apiUrl}/user_login`, { phone, password })
       .then((response) => {
+        console.log(response);
         dispatch(userLoginSuccess(response));
         localStorage.setItem("token", response.data.token);
       })

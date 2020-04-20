@@ -3,6 +3,10 @@ import axios from "axios";
 
 import Loader from "../hoc/Loader";
 import CustomNav from "../Navbar/CustomNav";
+import PaystackButton from "./PayStackButton";
+import { connect } from "react-redux";
+
+import { getUser } from "../../actions/userActions";
 
 class Cart extends Component {
   state = {
@@ -13,9 +17,103 @@ class Cart extends Component {
   };
 
   increment = (id) => {
-    this.setState({ count: { [id]: this.state.count[id] + 1 } });
-    //'this.state.count[id] += 1;
-    console.log(this.state.count[id], "inc");
+    let tempCart = this.state.cart.map((products) =>
+      products.map((newProduct) =>
+        newProduct.map((updatedProduct) => updatedProduct)
+      )
+    );
+    const selectedProduct = tempCart.find((item) => item._id === id);
+
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+
+    product.count = product.count + 1;
+    product.total = product.count * product.price;
+
+    this.setState(
+      () => {
+        return { cart: [...tempCart] };
+      },
+      () => {
+        this.addTotals();
+      }
+    );
+  };
+
+  decrement = (id) => {
+    let tempCart = [...this.state.cart];
+    const selectedProduct = tempCart.find((item) => item._id === id);
+
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+
+    product.count = product.count - 1;
+    if (product.count === 0) {
+      this.removeItem(id);
+    } else {
+      product.total = product.count * product.price;
+
+      this.setState(
+        () => {
+          return { cart: [...tempCart] };
+        },
+        () => {
+          this.addTotals();
+        }
+      );
+    }
+  };
+
+  removeItem = (id) => {
+    let tempProducts = [...this.state.products];
+    let tempCart = [...this.state.cart];
+
+    tempCart = tempCart.filter((item) => item._id !== id);
+
+    const index = tempProducts.indexOf(this.getItem(id));
+    let removedProduct = tempProducts[index];
+    removedProduct.inCart = false;
+    removedProduct.count = 0;
+    removedProduct.total = 0;
+
+    this.setState(
+      () => {
+        return {
+          cart: [...tempCart],
+          products: [...tempProducts],
+        };
+      },
+      () => {
+        this.addTotals();
+      }
+    );
+  };
+
+  clearCart = () => {
+    this.setState(
+      () => {
+        return { cart: [] };
+      },
+      () => {
+        this.setProducts();
+        this.addTotals();
+      }
+    );
+  };
+
+  addTotals = () => {
+    let subTotal = 0;
+    this.state.cart.map((item) => (subTotal += item.total));
+    const tempTax = subTotal * 0.1;
+    const tax = parseFloat(tempTax.toFixed(2));
+    const total = subTotal + tax;
+    this.setState(() => {
+      return {
+        cartSubTotal: subTotal,
+        cartTax: tax,
+        cartTotal: total,
+      };
+    });
   };
 
   viewCart = () => {
@@ -40,9 +138,14 @@ class Cart extends Component {
       });
   };
 
+  fetchUser = () => {
+    this.props.dispatch(getUser());
+  };
+
   componentDidMount() {
     this.viewCart();
     // this.fetch = setInterval(() => this.viewCart(), 1000);
+    this.fetchUser();
   }
 
   componentWillMount() {
@@ -51,7 +154,8 @@ class Cart extends Component {
 
   render() {
     const { cart, loading, count } = this.state;
-    console.log(cart);
+    const { user } = this.props;
+    console.log(user.email);
     if (loading) {
       return (
         <React.Fragment>
@@ -83,9 +187,6 @@ class Cart extends Component {
                       product.map((newProduct) => (
                         <div className="row my-2 text-capitalize  text-center">
                           <div className="col-10 mx-auto single_product col-lg-2">
-                            {count[newProduct._id] === undefined
-                              ? (count[newProduct._id] = 1)
-                              : ""}
                             <img
                               src={newProduct.image}
                               style={{ width: "5rem", height: "5rem" }}
@@ -109,9 +210,7 @@ class Cart extends Component {
                                 >
                                   -
                                 </span>
-                                <span className="btn btn-black mx-1">
-                                  {count}
-                                </span>
+                                <span className="btn btn-black mx-1">{}</span>
                                 <span
                                   className="btn btn-black mx-1"
                                   onClick={() => this.increment(newProduct._id)}
@@ -130,11 +229,7 @@ class Cart extends Component {
                             </div>
                           </div>
                           <div className="col-10 adjust_btn text-white mx-auto col-lg-2">
-                            <strong>
-                              item total : ₦
-                              {newProduct.price *
-                                this.state.count[newProduct._id]}
-                            </strong>
+                            <strong>item total : ₦{}</strong>
                           </div>
                         </div>
                       ))
@@ -143,10 +238,26 @@ class Cart extends Component {
               </div>
             )}
           </div>
+
+          <div className="pay_div">
+            <div className="center_pay">
+              <PaystackButton
+                total={100}
+                email={user.email}
+                style={{ textAlign: "center" }}
+                phone={user.phone}
+                name={user.name}
+              />
+            </div>
+          </div>
         </React.Fragment>
       );
     }
   }
 }
 
-export default Cart;
+const mapStateToProps = (state) => ({
+  user: state.user.user,
+});
+
+export default connect(mapStateToProps)(Cart);

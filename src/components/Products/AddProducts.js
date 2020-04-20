@@ -29,7 +29,11 @@ class AddProducts extends Component {
   postProduct = (e) => {
     e.preventDefault();
     const data = this.state;
+    const { loading, error } = this.props;
     this.props.dispatch(addProduct(data));
+    if (error === null) {
+      this.props.history.push("/");
+    }
   };
 
   render() {
@@ -38,18 +42,18 @@ class AddProducts extends Component {
     return (
       <React.Fragment>
         <CustomNav />
-        <div class="form-style-5 product_main">
+        <div className="form-style-5 product_main">
           <form onSubmit={this.postProduct} encType="multipart/form-data">
             <fieldset>
               <legend>
-                <span class="number">#</span> Post New Products
+                <span className="number">#</span> Post New Products
               </legend>
               {error !== null ? (
                 <p style={{ color: "red" }}>Error posting product</p>
               ) : (
                 ""
               )}
-              <label for="product_name">Product Name</label>
+              <label htmlFor="product_name">Product Name</label>
               <input
                 type="text"
                 name="product_name"
@@ -57,7 +61,7 @@ class AddProducts extends Component {
                 value={product_name}
                 onChange={this.handleChange}
               />
-              <label for="price">Price</label>
+              <label htmlFor="price">Price</label>
               <input
                 type="text"
                 name="price"
@@ -65,14 +69,14 @@ class AddProducts extends Component {
                 value={price}
                 onChange={this.handleChange}
               />
-              <label for="description">Product Image</label>
+              <label htmlFor="description">Product Image</label>
               <input
                 type="file"
                 id="image"
                 name="image"
                 onChange={this.handleImageChange}
               />
-              <label for="description">Description</label>
+              <label htmlFor="description">Description</label>
               <textarea
                 name="description"
                 placeholder="About Product"
@@ -80,7 +84,9 @@ class AddProducts extends Component {
                 onChange={this.handleChange}
               ></textarea>
             </fieldset>
-            <input type="submit" value={loading ? <Spinner /> : "Post"} />
+            <button className="post_button">
+              {loading ? <Spinner /> : "Post"}
+            </button>
           </form>
         </div>
       </React.Fragment>

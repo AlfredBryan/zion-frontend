@@ -26,13 +26,13 @@ class Register extends Component {
   onSignUp = (e) => {
     e.preventDefault();
     const data = this.state;
+    console.log(data);
     this.props.dispatch(userRegister(data));
   };
 
   render() {
     const { name, state, address, phone, email, password } = this.state;
     const { loading, error } = this.props;
-    console.log(error);
     return (
       <div>
         <main className="container my-5">
@@ -64,7 +64,7 @@ class Register extends Component {
                   <div className="form-group">
                     <label>Phone</label>
                     <input
-                      type="text"
+                      type="phone"
                       placeholder="Phone Number"
                       className="form-control login_input"
                       name="phone"
@@ -76,7 +76,7 @@ class Register extends Component {
                   <div className="form-group">
                     <label>Email</label>
                     <input
-                      type="text"
+                      type="email"
                       placeholder="Email Address"
                       className="form-control login_input"
                       name="email"

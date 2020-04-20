@@ -12,6 +12,7 @@ import {
 } from "./types";
 import axios from "axios";
 import FormData from "form-data";
+import { BrowserRouter } from "react-router-dom"
 
 const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
 const token = localStorage.getItem("token");
@@ -105,8 +106,9 @@ export function addProduct({ image, product_name, description, price }) {
       },
     })
       .then((response) => {
-        console.log(response);
-        dispatch(addProductSuccess(response.data));
+        if (response.status === 201) {
+          dispatch(addProductSuccess(response.data));
+        }
       })
       .catch((error) => {
         dispatch(addProductFailure(error));
