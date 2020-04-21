@@ -15,31 +15,12 @@ class Cart extends Component {
     loading: true,
     count: {},
     itemTotal: 0,
+    total: 0,
   };
 
-  // increment = (id) => {
-  //   let tempCart = this.state.cart.map((products) =>
-  //     products.map((newProduct) =>
-  //       newProduct.map((updatedProduct) => updatedProduct)
-  //     )
-  //   );
-  //   const selectedProduct = tempCart.find((item) => item._id === id);
-
-  //   const index = tempCart.indexOf(selectedProduct);
-  //   const product = tempCart[index];
-
-  //   product.count = product.count + 1;
-  //   product.total = product.count * product.price;
-
-  //   this.setState(
-  //     () => {
-  //       return { cart: [...tempCart] };
-  //     },
-  //     () => {
-  //       this.addTotals();
-  //     }
-  //   );
-  // };
+  increment = (id) => {
+    // this.state.count[id] =
+  };
 
   // decrement = (id) => {
   //   let tempCart = [...this.state.cart];
@@ -211,7 +192,12 @@ class Cart extends Component {
                               <div>
                                 <span className="btn btn-black mx-1">-</span>
                                 <span className="btn btn-black mx-1">{}</span>
-                                <span className="btn btn-black mx-1">+</span>
+                                <span
+                                  className="btn btn-black mx-1"
+                                  onClick={this.increment}
+                                >
+                                  +
+                                </span>
                               </div>
                             </div>
                           </div>
@@ -235,16 +221,14 @@ class Cart extends Component {
           </div>
 
           <div className="pay_div">
-            <div className="center_pay">
-              <PaystackButton
-                total={100}
-                email={user.email}
-                style={{ textAlign: "center" }}
-                phone={user.phone}
-                name={user.name}
-                callback={this.callback()}
-              />
-            </div>
+            <PaystackButton
+              total={100}
+              email={user.email}
+              style={{ textAlign: "center" }}
+              phone={user.phone}
+              name={user.name}
+              callback={this.callback()}
+            />
           </div>
           <Footer />
         </React.Fragment>
