@@ -75,6 +75,10 @@
     color: black;
 }
 
+.dropdown:hover>.dropdown-menu {
+    display: block;
+}
+
 @media only screen and (max-width: 400px) {
     .nav_items {
         margin-left: 0em !important;
@@ -87,5 +91,14 @@
 
     .brand_logo {
         margin-left: 0em;
+    }
+
+    .user-icon {
+        margin-left: 0em;
+        margin-top: 1.2em;
+    }
+
+    .cart {
+        margin-top: 0.2em;
     }
 }

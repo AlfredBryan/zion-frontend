@@ -25,6 +25,12 @@ class CustomNav extends Component {
     };
   }
 
+  toggle = () => {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  };
+
   logOut = () => {
     localStorage.clear("token");
     this.props.history.push("/login");
@@ -96,7 +102,6 @@ class CustomNav extends Component {
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>Profile</DropdownItem>
-
                     <DropdownItem>
                       {token ? (
                         <div onClick={this.logOut}>
@@ -104,28 +109,32 @@ class CustomNav extends Component {
                           <i className="fa fa-power-off"></i>
                         </div>
                       ) : (
-                        <Link to="/login">
+                        <Link to="/sign_in">
                           <span className="logout_button">Sign In</span>
-                          <i class="fa fa-sign-in"></i>
+                          <i className="fa fa fa-sign-in"></i>
                         </Link>
                       )}
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
 
-                <NavItem className="nav_items">
-                  <Link to="/cart">
-                    <div className="cart_details">
-                      <i className="fa fa-shopping-cart cart">
-                        <div className="cart_item">
-                          <p>{cart.length}</p>
-                        </div>
-                      </i>
-                    </div>
-                  </Link>
-                </NavItem>
+                {token ? (
+                  <NavItem className="nav_items">
+                    <Link to="/cart">
+                      <div className="cart_details">
+                        <i className="fa fa-shopping-cart cart">
+                          <div className="cart_item">
+                            <p>{cart.length}</p>
+                          </div>
+                        </i>
+                      </div>
+                    </Link>
+                  </NavItem>
+                ) : (
+                  ""
+                )}
               </Nav>
-              <form className="form-inline my-2 my-lg-0 nav_input">
+              {/* <form className="form-inline my-2 my-lg-0 nav_input">
                 <input
                   className="form-control mr-sm-2"
                   type="search"
@@ -138,7 +147,7 @@ class CustomNav extends Component {
                 >
                   Search
                 </button>
-              </form>
+              </form> */}
             </Collapse>
           </Navbar>
         </div>
