@@ -101,8 +101,10 @@ class CustomNav extends Component {
                     <i className="fa fa-user user-icon"></i>
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>Profile</DropdownItem>
                     <DropdownItem>
+                      <Link className="profile" to="/dashboard">
+                        Profile
+                      </Link>
                       {token ? (
                         <div onClick={this.logOut}>
                           <span className="logout_button">LogOut</span>
@@ -134,7 +136,7 @@ class CustomNav extends Component {
                   ""
                 )}
               </Nav>
-              {/* <form className="form-inline my-2 my-lg-0 nav_input">
+              <form className="form-inline my-2 my-lg-0 nav_input">
                 <input
                   className="form-control mr-sm-2"
                   type="search"
@@ -147,7 +149,7 @@ class CustomNav extends Component {
                 >
                   Search
                 </button>
-              </form> */}
+              </form>
             </Collapse>
           </Navbar>
         </div>

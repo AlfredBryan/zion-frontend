@@ -28,6 +28,16 @@
     color: white;
 }
 
+.profile {
+    text-decoration: none;
+    color: black
+}
+
+.profile:hover {
+    text-decoration: none;
+    color: black
+}
+
 .navbar-toggler {
     background-color: white;
 }
@@ -95,7 +105,7 @@
 
     .user-icon {
         margin-left: 0em;
-        margin-top: 1.2em;
+        margin-top: 0em;
     }
 
     .cart {

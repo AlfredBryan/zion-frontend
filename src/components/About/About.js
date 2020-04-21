@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { UncontrolledCarousel } from "reactstrap";
+
 import CustomNav from "../Navbar/CustomNav";
 
 import "./style.css";

@@ -10,6 +10,7 @@ import { getUser } from "../../actions/userActions";
 import CustomNav from "../Navbar/CustomNav";
 import Loader from "../hoc/Loader";
 import "./style.css";
+import Footer from "../Footer/Footer";
 
 class Home extends Component {
   getProducts = () => {
@@ -124,6 +125,7 @@ class Home extends Component {
             <Loader />
           )}
         </div>
+        <Footer />
       </React.Fragment>
     );
   }

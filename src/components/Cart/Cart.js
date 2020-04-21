@@ -4,6 +4,7 @@ import axios from "axios";
 import Loader from "../hoc/Loader";
 import CustomNav from "../Navbar/CustomNav";
 import PaystackButton from "./PayStackButton";
+import Footer from "../Footer/Footer";
 import { connect } from "react-redux";
 
 import { getUser } from "../../actions/userActions";
@@ -245,6 +246,7 @@ class Cart extends Component {
               />
             </div>
           </div>
+          <Footer />
         </React.Fragment>
       );
     }
