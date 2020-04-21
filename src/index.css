@@ -9,6 +9,8 @@ body {
 
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
 .product_main {
   margin-top: 100px;
 }
@@ -16,6 +18,18 @@ body {
 .cart_main {
   margin-top: 100px;
   color: white !important;
+}
+
+.about {
+  margin-top: 100px;
+}
+
+.payButton {
+  color: black;
+  background-color: yellow !important;
+  border-radius: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
 }
 
 code {

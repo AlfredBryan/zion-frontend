@@ -116,6 +116,10 @@ class Cart extends Component {
   //   });
   // };
 
+  callback = (response) => {
+    console.log(response); // card charged successfully, get reference here
+  };
+
   viewCart = () => {
     const token = localStorage.getItem("token");
     const products = [];
@@ -237,6 +241,7 @@ class Cart extends Component {
                 style={{ textAlign: "center" }}
                 phone={user.phone}
                 name={user.name}
+                callback={this.callback()}
               />
             </div>
           </div>

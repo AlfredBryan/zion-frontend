@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 //import the library
 import PaystackButton from "react-paystack";
+import { withRouter } from "react-router-dom";
 
 class App extends Component {
   state = {
     key: "pk_test_3b6005f8c10a46670d411c005963e21c8f9eea0e",
-  };
-
-  callback = (response) => {
-    console.log(response); // card charged successfully, get reference here
-    this.props.history.push("/");
   };
 
   close = () => {
@@ -35,10 +31,9 @@ class App extends Component {
           <PaystackButton
             text="Make Payment"
             class="payButton"
-            callback={this.callback}
+            callback={this.props.callback}
             close={this.close}
-            disabled={true}
-            embed={true}
+            embed={false}
             reference={this.getReference()}
             email={this.props.email}
             amount={this.props.total}
@@ -53,4 +48,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
