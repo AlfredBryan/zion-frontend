@@ -103,4 +103,8 @@
     .design_header h5 {
         font-size: 2em;
     }
+    .product_img {
+        width: 20.50em;
+        height: 20em;
+    }
 }

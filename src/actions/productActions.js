@@ -111,8 +111,9 @@ export function addProduct({ image, product_name, description, price }) {
         },
       })
       .then((response) => {
-        console.log(response);
-        dispatch(addProductSuccess(response.data));
+        if (response.status === 201) {
+          dispatch(addProductSuccess(response.data));
+        }
       })
       .catch((error) => {
         dispatch(addProductFailure(error));

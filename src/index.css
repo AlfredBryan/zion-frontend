@@ -9,11 +9,100 @@ body {
 
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
 .product_main {
   margin-top: 100px;
+}
+
+.cart_main {
+  margin-top: 100px;
+  color: white !important;
+}
+
+.about {
+  margin-top: 100px;
+}
+
+.payButton {
+  color: black;
+  background-color: yellow !important;
+  border-radius: 10px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Crimson+Text");
+
+:root {
+  --mainBlue: #2a2a72;
+  --lightBlue: #009ffd;
+  --mainWhite: #f3f3f3;
+  --mainDark: #232528;
+  --mainYellow: #ffa400;
+}
+
+.text-title {
+  font-family: "Crimson Text", serif;
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+}
+
+.text-blue {
+  color: var(--mainBlue);
+}
+
+.text-bright {
+  color: var(--lightBlue);
+}
+
+.btn-black {
+  background: white;
+  text-transform: capitalize;
+  font-size: 0.8rem !important;
+  color: var(--mainDark);
+  border-radius: 0 !important;
+  border: 0.1rem solid var(--mainDark) !important;
+}
+
+.btn-black:hover {
+  background: var(--mainDark) !important;
+  color: var(--mainWhite) !important;
+}
+
+.cart-icon {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--mainYellow);
+}
+
+.single_product {
+  margin-bottom: 1em;
+}
+
+.adjust_cart {
+  padding-top: 1.5em;
+}
+
+.adjust_btn {
+  padding-top: 1em;
+}
+
+.empty_cart {
+  text-align: center;
+  padding: 5em;
+}
+
+.pay_div {
+  text-align: center;
+}
+
+.center_pay {
+  display: inline-block;
+  width: 30em;
 }

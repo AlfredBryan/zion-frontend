@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import axios from "axios";
 
-import { addProduct } from "../../actions/productActions";
 import Spinner from "../hoc/Spinner";
 import CustomNav from "../Navbar/CustomNav";
 import "./style.css";
@@ -12,6 +11,8 @@ class AddProducts extends Component {
     price: "",
     description: "",
     image: "",
+    loading: false,
+    error: null,
   };
 
   handleImageChange = (e) => {
@@ -26,30 +27,56 @@ class AddProducts extends Component {
     });
   };
 
-  postProduct = (e) => {
+  postProduct = async (e) => {
     e.preventDefault();
-    const data = this.state;
-    this.props.dispatch(addProduct(data));
+    const { product_name, price, description, image } = this.state;
+    this.setState({ loading: true });
+    const formData = new FormData();
+    formData.set("product_name", product_name);
+    formData.set("description", description);
+    formData.set("price", price);
+    formData.append("image", image);
+    axios({
+      method: "post",
+      url: "https://zion-backend.herokuapp.com/api/v1/add_product",
+      data: formData,
+      config: {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          this.setState({ loading: false });
+          this.props.history.push("/");
+        }
+      })
+      .catch((err) => {
+        this.setState({
+          error: err,
+          loading: false,
+        });
+      });
   };
 
   render() {
-    const { product_name, price, description } = this.state;
-    const { loading, error } = this.props;
+    const { product_name, price, description, loading, error } = this.state;
     return (
       <React.Fragment>
         <CustomNav />
-        <div class="form-style-5 product_main">
+        <div className="form-style-5 product_main">
           <form onSubmit={this.postProduct} encType="multipart/form-data">
             <fieldset>
               <legend>
-                <span class="number">#</span> Post New Products
+                <span className="number">#</span> Post New Products
               </legend>
               {error !== null ? (
                 <p style={{ color: "red" }}>Error posting product</p>
               ) : (
                 ""
               )}
-              <label for="product_name">Product Name</label>
+              <label htmlFor="product_name">Product Name</label>
               <input
                 type="text"
                 name="product_name"
@@ -57,7 +84,7 @@ class AddProducts extends Component {
                 value={product_name}
                 onChange={this.handleChange}
               />
-              <label for="price">Price</label>
+              <label htmlFor="price">Price</label>
               <input
                 type="text"
                 name="price"
@@ -65,14 +92,14 @@ class AddProducts extends Component {
                 value={price}
                 onChange={this.handleChange}
               />
-              <label for="description">Product Image</label>
+              <label htmlFor="description">Product Image</label>
               <input
                 type="file"
                 id="image"
                 name="image"
                 onChange={this.handleImageChange}
               />
-              <label for="description">Description</label>
+              <label htmlFor="description">Description</label>
               <textarea
                 name="description"
                 placeholder="About Product"
@@ -80,7 +107,9 @@ class AddProducts extends Component {
                 onChange={this.handleChange}
               ></textarea>
             </fieldset>
-            <input type="submit" value={loading ? <Spinner /> : "Post"} />
+            <button type="submit" className="post_button">
+              {loading ? <Spinner /> : "Post"}
+            </button>
           </form>
         </div>
       </React.Fragment>
@@ -88,9 +117,4 @@ class AddProducts extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  loading: state.products.loading,
-  error: state.products.error,
-});
-
-export default connect(mapStateToProps)(AddProducts);
+export default AddProducts;

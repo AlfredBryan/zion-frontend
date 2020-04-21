@@ -82,9 +82,7 @@
     border-radius: 15px 15px 15px 0px;
 }
 
-.form-style-5 input[type="submit"],
-.form-style-5 input[type="button"] {
-    position: relative;
+.post_button {
     display: block;
     padding: 19px 39px 18px 39px;
     color: #FFF;
@@ -97,9 +95,9 @@
     border: 1px solid rgb(27, 24, 24);
     border-width: 1px 1px 3px;
     margin-bottom: 10px;
+    height: 4em;
 }
 
-.form-style-5 input[type="submit"]:hover,
-.form-style-5 input[type="button"]:hover {
+.post_button:hover {
     background: rgb(41, 34, 34);
 }
