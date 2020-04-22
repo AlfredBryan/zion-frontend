@@ -15,7 +15,7 @@ class Cart extends Component {
     loading: true,
     count: {},
     itemTotal: 0,
-    total: 0,
+    quantity: [],
   };
 
   increment = (id) => {
@@ -102,6 +102,34 @@ class Cart extends Component {
     console.log(response); // card charged successfully, get reference here
   };
 
+  increment = (id) => {
+    const { cart } = this.state;
+
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].id === id) {
+        cart[i].quantity += 1;
+        cart[i].cost = cart[i].quantity * cart[i].price;
+        this.setState({ cart: cart, loading: false });
+        return true;
+      }
+    }
+    return;
+  };
+
+  decrement = (id) => {
+    const { cart } = this.state;
+
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].id === id && cart[i].quantity > 1) {
+        cart[i].quantity -= 1;
+        cart[i].cost = cart[i].quantity * cart[i].price;
+        this.setState({ cart: cart, loading: false });
+        return true;
+      }
+    }
+    return;
+  };
+
   viewCart = () => {
     const token = localStorage.getItem("token");
     const products = [];
@@ -139,7 +167,7 @@ class Cart extends Component {
   }
 
   render() {
-    const { cart, loading, count } = this.state;
+    const { cart, loading, count, quantity } = this.state;
     const { user } = this.props;
     console.log(user.email);
     if (loading) {
@@ -190,11 +218,18 @@ class Cart extends Component {
                           <div className="col-10 mx-auto col-lg-2 my-2 my-lg-0">
                             <div className="d-flex adjust_btn justify-content-center">
                               <div>
-                                <span className="btn btn-black mx-1">-</span>
-                                <span className="btn btn-black mx-1">{}</span>
                                 <span
                                   className="btn btn-black mx-1"
-                                  onClick={this.increment}
+                                  onClick={() => this.decrement(newProduct._id)}
+                                >
+                                  -
+                                </span>
+                                <span className="btn btn-black mx-1">
+                                  {quantity.length}
+                                </span>
+                                <span
+                                  className="btn btn-black mx-1"
+                                  onClick={() => this.increment(newProduct._id)}
                                 >
                                   +
                                 </span>
@@ -219,6 +254,14 @@ class Cart extends Component {
               </div>
             )}
           </div>
+            <div className="cart-summary">
+              <div className="cart-summary-wrap">
+                <h4>Cart Summary</h4>
+                <h2>
+                  Total <span>N{}</span>
+                </h2>
+              </div>
+            </div>
 
           <div className="pay_div">
             <PaystackButton

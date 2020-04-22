@@ -107,3 +107,8 @@ code {
   display: inline-block;
   width: 30em;
 }
+
+.cart-summary {
+  text-align: center;
+  color: white;
+}
