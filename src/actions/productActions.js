@@ -13,7 +13,8 @@ import {
 import axios from "axios";
 import FormData from "form-data";
 
-const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
+// const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
+const apiUrl = 'http://localhost:4000/api/v1';
 const token = localStorage.getItem("token");
 
 export const fetchProductBegins = () => ({
@@ -107,7 +108,7 @@ export function addProduct({ image, product_name, description, price }) {
       axios.post(`${apiUrl}/add_product`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "token": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlOWIxZTNlMzMzZWEwMmQ3OGQ5MTEyYyIsImlzX2FkbWluIjp0cnVlLCJpYXQiOjE1ODcyMjQxMjcsImV4cCI6MTU4NzQ4MzMyN30.bQcJP7HcXiuRqUgJqsnJ3AzX_3BcCjRo7JX9NqnzLow',
+          "token": token
         },
       })
       .then((response) => {

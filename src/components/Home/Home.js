@@ -36,8 +36,8 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.fetch = setInterval(() => this.getProducts(), 1000);
-    this.timer = setInterval(() => this.fetchUser(), 1000);
+    this.fetch = setInterval(() => this.getProducts(), 10000);
+    this.timer = setInterval(() => this.fetchUser(), 10000);
   }
 
   componentWillMount() {
@@ -45,7 +45,11 @@ class Home extends Component {
     clearInterval(this.timer);
   }
   render() {
-    const { products, user } = this.props;
+    const { products, cart } = this.props;
+    let selected_products = []
+    cart.map(product => {
+      selected_products.push(product.product)
+    })
     return (
       <React.Fragment>
         <CustomNav />
@@ -109,7 +113,7 @@ class Home extends Component {
                             variant="contained"
                             color="secondary"
                             className="add_cart"
-                            disabled={user && product.picked.includes(user._id)}
+                            disabled={selected_products && selected_products.includes(product._id)}
                           >
                             ADD TO CART
                           </Button>
@@ -132,6 +136,7 @@ class Home extends Component {
 const mapStateToProps = (state) => ({
   products: state.products.products,
   user: state.user.user,
+  cart: state.user.cart_items
 });
 
 export default connect(mapStateToProps)(Home);

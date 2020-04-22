@@ -6,17 +6,19 @@ import {
   USER_REGISTER_SUCCESSFUL,
   USER_REGISTER_FAILURE,
   GET_USER,
-} from "../actions/types";
+  SET_CART_ITEMS,
+} from '../actions/types';
 
 const initialState = {
-  user: "",
-  name: "",
-  phone: "",
-  state: "",
-  address: "",
-  password: "",
+  user: '',
+  name: '',
+  phone: '',
+  state: '',
+  address: '',
+  password: '',
   loading: false,
   error: null,
+  cart_items: [],
 };
 
 export default function user(state = initialState, action) {
@@ -71,6 +73,12 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         user: action.payload.user,
+      };
+
+    case SET_CART_ITEMS:
+      return {
+        ...state,
+        cart_items: action.payload.cart,
       };
 
     default:

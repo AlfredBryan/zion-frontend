@@ -37,18 +37,22 @@ class CustomNav extends Component {
   };
 
   viewCart = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     const products = [];
     axios
-      .get("https://zion-backend.herokuapp.com/api/v1/cart", {
+      .get('http://localhost:4000/api/v1/cart', {
         headers: {
           token: token,
         },
       })
       .then((res) => {
         if (res.status === 200) {
-          res.data.map((cart) => products.push(cart.product));
+          // console.log(res.data);
+          res.data.data.map((product) => {
+            products.push(product);
+          });
           this.setState({ cart: products, loading: false });
+          // this.setState({ cart: res.data.cart, loading: false });
         }
       })
       .catch((error) => {

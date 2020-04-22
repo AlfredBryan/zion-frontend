@@ -6,10 +6,13 @@ import {
   USER_REGISTER_SUCCESSFUL,
   USER_REGISTER_FAILURE,
   GET_USER,
-} from "./types";
-import axios from "axios";
+  SET_CART_ITEMS,
+} from './types';
+import axios from 'axios';
+// import { fetchCart } from "./productActions";
 
-const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
+// const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
+const apiUrl = 'http://localhost:4000/api/v1';
 
 export const userRegisterBegin = () => ({
   type: USER_REGISTER_BEGINS,
@@ -57,6 +60,11 @@ export const fetchUser = (user) => ({
   payload: { user },
 });
 
+export const fetchCartItems = (cart) => ({
+  type: SET_CART_ITEMS,
+  payload: { cart },
+});
+
 export function userRegister({ name, state, address, phone, email, password }) {
   return (dispatch) => {
     dispatch(userRegisterBegin());
@@ -72,7 +80,7 @@ export function userRegister({ name, state, address, phone, email, password }) {
       .then((response) => {
         console.log(response);
         dispatch(userRegisterSuccess(response));
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem('token', response.data.token);
       })
       .catch((error) => dispatch(userRegisterFailure(error)));
   };
@@ -86,14 +94,14 @@ export function userLogin({ phone, password }) {
       .then((response) => {
         console.log(response);
         dispatch(userLoginSuccess(response));
-        localStorage.setItem("token", response.data.token);
+        localStorage.setItem('token', response.data.token);
       })
       .catch((error) => dispatch(userLoginFailure(error.message)));
   };
 }
 
 export function getUser() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   return (dispatch) => {
     axios
       .get(`${apiUrl}/user`, {
@@ -103,6 +111,7 @@ export function getUser() {
       })
       .then((response) => {
         dispatch(fetchUser(response.data.data));
+        dispatch(fetchCartItems(response.data.cart_items));
       });
   };
 }
