@@ -12,10 +12,8 @@ import {
 } from "./types";
 import axios from "axios";
 import FormData from "form-data";
-
-// const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
-const apiUrl = 'http://localhost:4000/api/v1';
-const token = localStorage.getItem("token");
+import apiUrl from "../api";
+import token from "../token";
 
 export const fetchProductBegins = () => ({
   type: FETCH_PRODUCTS_BEGINS,

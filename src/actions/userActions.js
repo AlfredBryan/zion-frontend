@@ -9,10 +9,8 @@ import {
   SET_CART_ITEMS,
 } from './types';
 import axios from 'axios';
-// import { fetchCart } from "./productActions";
-
-// const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
-const apiUrl = 'http://localhost:4000/api/v1';
+import apiUrl from '../api'
+import token from '../token'
 
 export const userRegisterBegin = () => ({
   type: USER_REGISTER_BEGINS,
@@ -78,7 +76,6 @@ export function userRegister({ name, state, address, phone, email, password }) {
         password,
       })
       .then((response) => {
-        console.log(response);
         dispatch(userRegisterSuccess(response));
         localStorage.setItem('token', response.data.token);
       })
@@ -92,7 +89,6 @@ export function userLogin({ phone, password }) {
     axios
       .post(`${apiUrl}/user_login`, { phone, password })
       .then((response) => {
-        console.log(response);
         dispatch(userLoginSuccess(response));
         localStorage.setItem('token', response.data.token);
       })
@@ -101,7 +97,6 @@ export function userLogin({ phone, password }) {
 }
 
 export function getUser() {
-  const token = localStorage.getItem('token');
   return (dispatch) => {
     axios
       .get(`${apiUrl}/user`, {
@@ -110,6 +105,7 @@ export function getUser() {
         },
       })
       .then((response) => {
+        // console.log(response.data)
         dispatch(fetchUser(response.data.data));
         dispatch(fetchCartItems(response.data.cart_items));
       });

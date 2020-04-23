@@ -9,6 +9,7 @@ import { fetchProducts, addToCart } from '../../actions/productActions';
 import { getUser } from '../../actions/userActions';
 import CustomNav from '../Navbar/CustomNav';
 import Loader from '../hoc/Loader';
+import token from '../../token'
 import './style.css';
 
 class Home extends Component {
@@ -26,7 +27,6 @@ class Home extends Component {
     });
 
   onAddToCart = (id) => {
-    const token = localStorage.getItem('token');
     if (!token) {
       this.props.history.replace('/login');
     } else {
@@ -48,9 +48,10 @@ class Home extends Component {
   }
   render() {
     const { products, cart } = this.props;
+    // console.log(products, cart)
     let selected_products = [];
     cart.map((product) => {
-      selected_products.push(product.product);
+      return selected_products.push(product.product);
     });
     return (
       <React.Fragment>

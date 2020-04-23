@@ -7,6 +7,8 @@ import PaystackButton from './PayStackButton';
 import { connect } from 'react-redux';
 
 import { getUser } from '../../actions/userActions';
+import apiUrl from '../../api';
+import token from '../../token'
 
 class Cart extends Component {
   state = {
@@ -18,12 +20,11 @@ class Cart extends Component {
   };
 
   removeItem = (id) => {
-    const token = localStorage.getItem('token');
     const { cart_data } = this.state;
 
     axios
       .get(
-        `http://localhost:4000/api/v1/cart/delete/${cart_data._id}?product=${id}`,
+        `${apiUrl}/${cart_data._id}?product=${id}`,
         {
           headers: {
             token: token,
@@ -77,7 +78,7 @@ class Cart extends Component {
     const token = localStorage.getItem('token');
     const products = [];
     axios
-      .get('http://localhost:4000/api/v1/cart', {
+      .get(`${apiUrl}/cart`, {
         headers: {
           token: token,
         },
@@ -86,7 +87,7 @@ class Cart extends Component {
         if (res.status === 200) {
           // console.log(res.data);
           res.data.data.map((product) => {
-            products.push(product);
+            return products.push(product);
           });
           this.setState({ cart: products, loading: false });
           this.setState({ cart_data: res.data.cart, loading: false });
@@ -113,7 +114,7 @@ class Cart extends Component {
 
     axios
       .get(
-        `http://localhost:4000/api/v1/adjust_product/${id}?type=${type}`,
+        `${apiUrl}/${id}?type=${type}`,
         {
           headers: {
             token: token,
@@ -162,11 +163,11 @@ class Cart extends Component {
   }
 
   render() {
-    const { cart, loading, count } = this.state;
+    const { cart, loading } = this.state;
     const { user } = this.props;
     let totalCost = 0;
     cart.map((product) => {
-      totalCost += product.cost;
+      return totalCost += product.cost;
     });
     // console.log(cart);
     if (loading) {

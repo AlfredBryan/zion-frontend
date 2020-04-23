@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
 import {
   Collapse,
   Navbar,
@@ -12,9 +12,11 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap";
+} from 'reactstrap';
 
-import "./style.css";
+import './style.css';
+import apiUrl from '../../api';
+import token from '../../token';
 
 class CustomNav extends Component {
   constructor(props) {
@@ -32,15 +34,14 @@ class CustomNav extends Component {
   };
 
   logOut = () => {
-    localStorage.clear("token");
-    this.props.history.push("/login");
+    localStorage.clear('token');
+    this.props.history.push('/login');
   };
 
   viewCart = () => {
-    const token = localStorage.getItem('token');
     const products = [];
     axios
-      .get('http://localhost:4000/api/v1/cart', {
+      .get(`${apiUrl}/cart`, {
         headers: {
           token: token,
         },
@@ -49,7 +50,7 @@ class CustomNav extends Component {
         if (res.status === 200) {
           // console.log(res.data);
           res.data.data.map((product) => {
-            products.push(product);
+            return products.push(product);
           });
           this.setState({ cart: products, loading: false });
           // this.setState({ cart: res.data.cart, loading: false });
@@ -71,51 +72,50 @@ class CustomNav extends Component {
   }
 
   render() {
-    const token = localStorage.getItem("token");
     const { cart } = this.state;
     return (
       <React.Fragment>
         <div>
           <Navbar
-            className="navbar_adjust"
-            color="light"
+            className='navbar_adjust'
+            color='light'
             light
-            expand="md"
-            fixed="top"
+            expand='md'
+            fixed='top'
           >
-            <NavbarBrand href="/">
+            <NavbarBrand href='/'>
               <img
-                className="logo_resize"
-                src={require("../../images/logo.jpeg")}
-                alt="logo"
+                className='logo_resize'
+                src={require('../../images/logo.jpeg')}
+                alt='logo'
               />
             </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="mr-auto" navbar>
-                <NavItem className="nav_items">
-                  <Link to="/add_products">Products</Link>
+              <Nav className='mr-auto' navbar>
+                <NavItem className='nav_items'>
+                  <Link to='/add_products'>Products</Link>
                 </NavItem>
-                <NavItem className="nav_items">
-                  <Link to="/about_us">About Us</Link>
+                <NavItem className='nav_items'>
+                  <Link to='/about_us'>About Us</Link>
                 </NavItem>
 
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
-                    <i className="fa fa-user user-icon"></i>
+                    <i className='fa fa-user user-icon'></i>
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>Profile</DropdownItem>
                     <DropdownItem>
                       {token ? (
                         <div onClick={this.logOut}>
-                          <span className="logout_button">LogOut</span>
-                          <i className="fa fa-power-off"></i>
+                          <span className='logout_button'>LogOut</span>
+                          <i className='fa fa-power-off'></i>
                         </div>
                       ) : (
-                        <Link to="/sign_in">
-                          <span className="logout_button">Sign In</span>
-                          <i className="fa fa fa-sign-in"></i>
+                        <Link to='/sign_in'>
+                          <span className='logout_button'>Sign In</span>
+                          <i className='fa fa fa-sign-in'></i>
                         </Link>
                       )}
                     </DropdownItem>
@@ -123,11 +123,11 @@ class CustomNav extends Component {
                 </UncontrolledDropdown>
 
                 {token ? (
-                  <NavItem className="nav_items">
-                    <Link to="/cart">
-                      <div className="cart_details">
-                        <i className="fa fa-shopping-cart cart">
-                          <div className="cart_item">
+                  <NavItem className='nav_items'>
+                    <Link to='/cart'>
+                      <div className='cart_details'>
+                        <i className='fa fa-shopping-cart cart'>
+                          <div className='cart_item'>
                             <p>{cart.length}</p>
                           </div>
                         </i>
@@ -135,7 +135,7 @@ class CustomNav extends Component {
                     </Link>
                   </NavItem>
                 ) : (
-                  ""
+                  ''
                 )}
               </Nav>
               {/* <form className="form-inline my-2 my-lg-0 nav_input">
