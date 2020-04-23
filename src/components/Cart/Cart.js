@@ -70,7 +70,7 @@ class Cart extends Component {
   // };
 
   callback = (response) => {
-    console.log(response); // card charged successfully, get reference here
+    // console.log(response); // card charged successfully, get reference here
   };
 
   viewCart = () => {
@@ -84,7 +84,7 @@ class Cart extends Component {
       })
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
+          // console.log(res.data);
           res.data.data.map((product) => {
             products.push(product);
           });
@@ -99,33 +99,53 @@ class Cart extends Component {
       });
   };
 
-  increment = (id) => {
-    const { cart } = this.state;
+  adjust = (id, type) => {
+    // const { cart } = this.state;
+    // for (let i = 0; i < cart.length; i++) {
+    //   if (cart[i].id === id) {
+    //     if (type === 'increment') cart[i].quantity += 1;
+    //     else cart[i].quantity -= 1
+    //     cart[i].cost = cart[i].quantity * cart[i].price;
+    //     this.setState({ cart: cart, loading: false });
+    //   }
+    // }
+    const token = localStorage.getItem('token');
 
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].id === id) {
-        cart[i].quantity += 1;
-        cart[i].cost = cart[i].quantity * cart[i].price;
-        this.setState({ cart: cart, loading: false });
-        return true;
-      }
-    }
+    axios
+      .get(
+        `http://localhost:4000/api/v1/adjust_product/${id}?type=${type}`,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          this.viewCart()
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          this.setState({ loading: false });
+        }
+      });
     return;
   };
 
-  decrement = (id) => {
-    const { cart } = this.state;
+  // decrement = (id) => {
+  //   const { cart } = this.state;
 
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].id === id && cart[i].quantity > 1) {
-        cart[i].quantity -= 1;
-        cart[i].cost = cart[i].quantity * cart[i].price;
-        this.setState({ cart: cart, loading: false });
-        return true;
-      }
-    }
-    return;
-  };
+  //   for (let i = 0; i < cart.length; i++) {
+  //     if (cart[i].id === id && cart[i].quantity > 1) {
+  //       cart[i].quantity -= 1;
+  //       cart[i].cost = cart[i].quantity * cart[i].price;
+  //       this.setState({ cart: cart, loading: false });
+  //       return true;
+  //     }
+  //   }
+  //   return;
+  // };
 
   fetchUser = () => {
     this.props.dispatch(getUser());
@@ -148,7 +168,7 @@ class Cart extends Component {
     cart.map((product) => {
       totalCost += product.cost;
     });
-    // console.log(user.email);
+    // console.log(cart);
     if (loading) {
       return (
         <React.Fragment>
@@ -177,9 +197,7 @@ class Cart extends Component {
                 {cart &&
                   cart.map(
                     (product) => (
-                      // products.product.map((product) =>
-                      //   product.map((newProduct) => (
-                      <div className='row my-2 text-capitalize  text-center'>
+                      <div className='row my-2 text-capitalize  text-center' key={product._id}>
                         <div className='col-10 mx-auto single_product col-lg-2'>
                           <img
                             src={product.image}
@@ -200,7 +218,7 @@ class Cart extends Component {
                             <div>
                               <span
                                 className='btn btn-black mx-1'
-                                onClick={() => this.decrement(product.id)}
+                                onClick={() => this.adjust(product.id, 'decrement')}
                               >
                                 -
                               </span>
@@ -209,7 +227,7 @@ class Cart extends Component {
                               </span>
                               <span
                                 className='btn btn-black mx-1'
-                                onClick={() => this.increment(product.id)}
+                                onClick={() => this.adjust(product.id, 'increment')}
                               >
                                 +
                               </span>
@@ -229,8 +247,6 @@ class Cart extends Component {
                         </div>
                       </div>
                     )
-                    // )
-                    // )
                   )}
               </div>
             )}
