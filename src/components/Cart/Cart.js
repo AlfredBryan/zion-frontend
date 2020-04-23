@@ -132,8 +132,8 @@ class Cart extends Component {
   };
 
   componentDidMount() {
-    this.viewCart();
-    // this.fetch = setInterval(() => this.viewCart(), 1000);
+    // this.viewCart();
+    this.fetch = setInterval(() => this.viewCart(), 1000);
     this.fetchUser();
   }
 

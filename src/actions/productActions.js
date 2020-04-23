@@ -145,6 +145,7 @@ export function addToCart(id) {
 }
 
 export function fetchCart() {
+  // console.log(token)
   return (dispatch) => {
     dispatch(fetchCartBegins());
     axios
@@ -154,8 +155,12 @@ export function fetchCart() {
         },
       })
       .then((response) => {
+        // console.log(response.data)
         dispatch(fetchCartSuccess(response.data));
       })
-      .catch((error) => dispatch(fetchCartFailure(error)));
+      .catch((error) => {
+        // console.log(error)
+        dispatch(fetchCartFailure(error))
+      });
   };
 }
