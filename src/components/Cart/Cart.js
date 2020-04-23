@@ -258,7 +258,8 @@ class Cart extends Component {
             </div>
             <div className='center_pay'>
               <PaystackButton
-                total={100}
+                total={totalCost * 100
+                }
                 email={user.email}
                 style={{ textAlign: 'center' }}
                 phone={user.phone}
