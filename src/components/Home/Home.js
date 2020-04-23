@@ -64,7 +64,7 @@ class Home extends Component {
             alt='bg_img'
           />
           <div className='desc'>
-            <h2>Zion Enterprise</h2>
+            <h2>Zion Globe</h2>
             <h4>We Reach out to the World</h4>
             <div className='react-typed'>
               <div className='typed'>
