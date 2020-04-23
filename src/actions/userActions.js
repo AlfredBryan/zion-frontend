@@ -11,8 +11,7 @@ import {
 import axios from 'axios';
 // import { fetchCart } from "./productActions";
 
-// const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
-const apiUrl = 'http://localhost:4000/api/v1';
+const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
 
 export const userRegisterBegin = () => ({
   type: USER_REGISTER_BEGINS,

@@ -40,7 +40,7 @@ class CustomNav extends Component {
     const token = localStorage.getItem('token');
     const products = [];
     axios
-      .get('http://localhost:4000/api/v1/cart', {
+      .get('https://zion-backend.herokuapp.com/api/v1/cart', {
         headers: {
           token: token,
         },

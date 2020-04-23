@@ -13,8 +13,7 @@ import {
 import axios from "axios";
 import FormData from "form-data";
 
-// const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
-const apiUrl = 'http://localhost:4000/api/v1';
+const apiUrl = "https://zion-backend.herokuapp.com/api/v1";
 const token = localStorage.getItem("token");
 
 export const fetchProductBegins = () => ({

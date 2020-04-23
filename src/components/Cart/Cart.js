@@ -23,7 +23,7 @@ class Cart extends Component {
 
     axios
       .get(
-        `http://localhost:4000/api/v1/cart/delete/${cart_data._id}?product=${id}`,
+        `https://zion-backend.herokuapp.com/api/v1/cart/delete/${cart_data._id}?product=${id}`,
         {
           headers: {
             token: token,
@@ -77,7 +77,7 @@ class Cart extends Component {
     const token = localStorage.getItem('token');
     const products = [];
     axios
-      .get('http://localhost:4000/api/v1/cart', {
+      .get('https://zion-backend.herokuapp.com/api/v1/cart', {
         headers: {
           token: token,
         },
@@ -113,7 +113,7 @@ class Cart extends Component {
 
     axios
       .get(
-        `http://localhost:4000/api/v1/adjust_product/${id}?type=${type}`,
+        `https://zion-backend.herokuapp.com/api/v1/adjust_product/${id}?type=${type}`,
         {
           headers: {
             token: token,
