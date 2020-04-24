@@ -20,6 +20,24 @@ class Cart extends Component {
     cart_data: {},
   };
 
+  orderItems = () => {
+    axios
+      .post(
+        `${apiUrl}/order`,
+        {},
+        {
+          headers: {
+            token: token,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          this.props.history.push("/");
+        }
+      });
+  };
+
   removeItem = (id) => {
     const { cart_data } = this.state;
 
@@ -44,6 +62,7 @@ class Cart extends Component {
   callback = (response) => {
     console.log(response); // card charged successfully, get reference here
     if (response.status === "success") {
+      this.orderItems();
     }
   };
 
