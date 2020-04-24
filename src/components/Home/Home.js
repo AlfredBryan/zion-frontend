@@ -39,8 +39,8 @@ class Home extends Component {
   componentDidMount() {
     // this.getProducts();
     // this.fetchUser();
-    this.fetch = setInterval(() => this.getProducts(), 1000);
-    this.timer = setInterval(() => this.fetchUser(), 1000);
+    this.fetch = setInterval(() => this.getProducts(), 1000000);
+    this.timer = setInterval(() => this.fetchUser(), 1000000);
   }
 
   componentWillMount() {
