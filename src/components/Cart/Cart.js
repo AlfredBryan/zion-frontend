@@ -77,7 +77,7 @@ class Cart extends Component {
     const token = localStorage.getItem("token");
 
     axios
-      .get(`${apiUrl}/${id}?type=${type}`, {
+      .get(`${apiUrl}/adjust_product/${id}?type=${type}`, {
         headers: {
           token: token,
         },
@@ -100,7 +100,6 @@ class Cart extends Component {
   };
 
   componentDidMount() {
-    // this.viewCart();
     this.fetch = setInterval(() => this.viewCart(), 1000);
     this.fetchUser();
   }
@@ -116,7 +115,6 @@ class Cart extends Component {
     cart.map((product) => {
       return (totalCost += product.cost);
     });
-    // console.log(cart);
     if (loading) {
       return (
         <React.Fragment>
