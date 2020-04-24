@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 
 class App extends Component {
   state = {
-    key: "pk_live_5c77a9df27589b89e043ea69c092667ae006d6e9",
+    key: process.env.REACT_APP_PUBLIC_KEY,
   };
 
   close = () => {

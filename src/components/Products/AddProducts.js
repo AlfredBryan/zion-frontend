@@ -4,6 +4,7 @@ import axios from "axios";
 import Spinner from "../hoc/Spinner";
 import CustomNav from "../Navbar/CustomNav";
 import "./style.css";
+import Footer from "../Footer/Footer";
 
 class AddProducts extends Component {
   state = {
@@ -112,6 +113,7 @@ class AddProducts extends Component {
             </button>
           </form>
         </div>
+        <Footer />
       </React.Fragment>
     );
   }

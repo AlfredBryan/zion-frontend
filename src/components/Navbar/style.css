@@ -101,4 +101,9 @@
     .cart {
         margin-top: 0.2em;
     }
+
+    .navbar-nav {
+        height: 10em !important
+    }
+
 }

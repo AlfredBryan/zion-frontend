@@ -96,13 +96,14 @@ code {
 .empty_cart {
   text-align: center;
   padding: 5em;
+  color: black;
 }
 
 .pay_div {
   text-align: center;
+  margin-top: 1.5em;
 }
 
 .center_pay {
-  display: inline-block;
-  width: 30em;
+  margin-top: 2em;
 }
