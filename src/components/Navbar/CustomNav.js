@@ -64,7 +64,7 @@ class CustomNav extends Component {
   };
 
   componentDidMount() {
-    this.timer = setInterval(() => this.viewCart(), 10000000);
+    this.timer = setInterval(() => this.viewCart(), 1000);
   }
 
   componentWillUnmount() {
