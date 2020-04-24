@@ -49,7 +49,6 @@ class Home extends Component {
   }
   render() {
     const { products, cart } = this.props;
-    // console.log(products, cart)
     let selected_products = [];
     cart.map((product) => {
       return selected_products.push(product.product);

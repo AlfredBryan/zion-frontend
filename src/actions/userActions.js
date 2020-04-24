@@ -105,7 +105,6 @@ export function getUser() {
         },
       })
       .then((response) => {
-        // console.log(response.data)
         dispatch(fetchUser(response.data.data));
         dispatch(fetchCartItems(response.data.cart_items));
       });
