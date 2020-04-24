@@ -58,7 +58,7 @@ class Cart extends Component {
       })
       .then((res) => {
         if (res.status === 200) {
-          // console.log(res.data);
+          console.log(res.data);
           res.data.data.map((product) => {
             return products.push(product);
           });
