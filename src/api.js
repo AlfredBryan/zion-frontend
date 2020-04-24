@@ -1,3 +1,3 @@
-const apiUrl = 'http://localhost:4000/api/v1';
+const apiUrl = 'https://zion-backend.herokuapp.com/api/v1';
 
 export default apiUrl;
