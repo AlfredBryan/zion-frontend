@@ -1,19 +1,20 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import Spinner from "../hoc/Spinner";
-import states from "../../state";
-import "./style.css";
+import Spinner from '../hoc/Spinner';
+import states from '../../state';
+import './style.css';
+import apiUrl from '../../api';
 
 class Register extends Component {
   state = {
-    name: "",
-    state: "",
-    address: "",
-    phone: "",
-    email: "",
-    password: "",
+    name: '',
+    state: '',
+    address: '',
+    phone: '',
+    email: '',
+    password: '',
     loading: false,
     error: null,
   };
@@ -31,7 +32,7 @@ class Register extends Component {
       loading: true,
     });
     axios
-      .post("https://zion-backend.herokuapp.com/api/v1/create_user", {
+      .post(`${apiUrl}/create_user`, {
         phone,
         password,
         name,
@@ -41,18 +42,20 @@ class Register extends Component {
       })
       .then((res) => {
         if (res.status === 201) {
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem('token', res.data.token);
           this.setState({
             loading: false,
           });
-          this.props.history.push("/");
+          this.props.history.push('/');
         }
       })
       .catch((err) => {
         this.setState({
-          error: "invalid user or password",
+          error: err.response.data.message ?? 'invalid user or password',
           loading: false,
         });
+
+        window.scrollTo(0, 0);
       });
   };
   onLogin = (e) => {
@@ -72,65 +75,70 @@ class Register extends Component {
     } = this.state;
     return (
       <div>
-        <main className="container my-5">
-          <div className="row">
-            <section className="col-md-6 my-5 offset-md-3">
-              <div className="card shadow p-5">
+        <main className='container my-5'>
+          <div className='row'>
+            <section className='col-md-6 my-5 offset-md-3'>
+              <div className='card shadow p-5'>
                 <form onSubmit={this.onSignUp}>
-                  <h3 className="text-center text-uppercase mb-4">SIGN UP</h3>
-                  <hr className="login_hr" />
+                  <h3 className='text-center text-uppercase mb-4'>SIGN UP</h3>
+                  <hr className='login_hr' />
                   {error !== null ? (
-                    <p style={{ color: "red" }} className="mt-3">
-                      please enter all fields ***
+                    <p style={{ color: 'red' }} className='mt-3'>
+                      {error}
                     </p>
                   ) : (
-                    ""
+                    ''
                   )}
-                  <div className="form-group">
+                  <div className='form-group'>
                     <label>Full Name</label>
                     <input
-                      type="text"
-                      placeholder="Full Name"
-                      className="form-control login_input"
-                      name="name"
+                      type='text'
+                      placeholder='Full Name'
+                      className='form-control login_input'
+                      name='name'
                       value={name}
                       onChange={this.handleChange}
+                      required
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div className='form-group'>
                     <label>Phone</label>
                     <input
-                      type="phone"
-                      placeholder="Phone Number"
-                      className="form-control login_input"
-                      name="phone"
+                      type='phone'
+                      placeholder='Phone Number'
+                      className='form-control login_input'
+                      name='phone'
                       value={phone}
                       onChange={this.handleChange}
+                      minLength='11'
+                      required
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div className='form-group'>
                     <label>Email</label>
                     <input
-                      type="email"
-                      placeholder="Email Address"
-                      className="form-control login_input"
-                      name="email"
+                      type='email'
+                      placeholder='Email Address'
+                      className='form-control login_input'
+                      name='email'
                       value={email}
                       onChange={this.handleChange}
+                      required
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div className='form-group'>
                     <label>State</label>
                     <select
-                      name="state"
-                      className="form-control login_input"
+                      name='state'
+                      className='form-control login_input'
                       value={state}
                       onChange={this.handleChange}
+                      required
                     >
-                      <option value="">--Select--</option>
+                      <option value=''>--Select--</option>
                       {states.map((s) => (
                         <option key={s} value={s}>
                           {s}
@@ -139,40 +147,43 @@ class Register extends Component {
                     </select>
                   </div>
 
-                  <div className="form-group">
+                  <div className='form-group'>
                     <label>Address</label>
                     <textarea
-                      type="text"
-                      placeholder="Address"
-                      className="form-control login_input"
-                      name="address"
+                      type='text'
+                      placeholder='Address'
+                      className='form-control login_input'
+                      name='address'
                       value={address}
                       onChange={this.handleChange}
+                      required
                     />
                   </div>
 
-                  <div className="form-group">
+                  <div className='form-group'>
                     <label>Password</label>
                     <input
-                      type="password"
-                      placeholder="Password"
-                      className="form-control login_input"
-                      name="password"
+                      type='password'
+                      placeholder='Password'
+                      className='form-control login_input'
+                      name='password'
                       value={password}
                       onChange={this.handleChange}
+                      minLength='6'
+                      required
                     />
                   </div>
 
                   <button
-                    type="submit"
-                    className="btn btn_login btn-block btn-secondary rounded-pill mt-3"
+                    type='submit'
+                    className='btn btn_login btn-block btn-secondary rounded-pill mt-3'
                   >
-                    {loading ? <Spinner /> : "Sign Up"}
+                    {loading ? <Spinner /> : 'Sign Up'}
                   </button>
 
-                  <p className="mt-3 text-white">
+                  <p className='mt-3 text-white'>
                     Already have an Account ?
-                    <Link to="/login" className="text-white">
+                    <Link to='/login' className='text-white'>
                       Login Here
                     </Link>
                   </p>

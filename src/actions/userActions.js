@@ -7,10 +7,11 @@ import {
   USER_REGISTER_FAILURE,
   GET_USER,
   SET_CART_ITEMS,
+  FETCH_USER_FAILURE
 } from './types';
 import axios from 'axios';
-import apiUrl from '../api'
-import token from '../token'
+import apiUrl from '../api';
+import token from '../token';
 
 export const userRegisterBegin = () => ({
   type: USER_REGISTER_BEGINS,
@@ -58,6 +59,11 @@ export const fetchUser = (user) => ({
   payload: { user },
 });
 
+export const fetchUserFailure = (user) => ({
+  type: FETCH_USER_FAILURE,
+  payload: { user },
+});
+
 export const fetchCartItems = (cart) => ({
   type: SET_CART_ITEMS,
   payload: { cart },
@@ -89,24 +95,32 @@ export function userLogin({ phone, password }) {
     axios
       .post(`${apiUrl}/user_login`, { phone, password })
       .then((response) => {
-        dispatch(userLoginSuccess(response));
+        console.log(response.data)
         localStorage.setItem('token', response.data.token);
+        dispatch(userLoginSuccess(response));
       })
       .catch((error) => dispatch(userLoginFailure(error.message)));
   };
 }
 
 export function getUser() {
+  
   return (dispatch) => {
-    axios
-      .get(`${apiUrl}/user`, {
-        headers: {
-          token: token,
-        },
-      })
-      .then((response) => {
-        dispatch(fetchUser(response.data.data));
-        dispatch(fetchCartItems(response.data.cart_items));
-      });
-  };
+    if (!token) return dispatch(fetchUserFailure(null));
+      axios
+        .get(`${apiUrl}/user`, {
+          headers: {
+            token: token,
+          },
+        })
+        .then((response) => {
+          dispatch(fetchUser(response.data.data));
+          dispatch(fetchCartItems(response.data.cart_items));
+        })
+        .catch((error) => {
+          // console.log(error.response)
+          localStorage.clear("token");
+        });
+    };
+  
 }

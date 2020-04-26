@@ -4,6 +4,7 @@ import axios from "axios";
 
 import Spinner from "../hoc/Spinner";
 import "./style.css";
+import apiUrl from "../../api";
 
 class Login extends Component {
   state = {
@@ -26,7 +27,7 @@ class Login extends Component {
       loading: true,
     });
     axios
-      .post("https://zion-backend.herokuapp.com/api/v1/user_login", {
+      .post(`${apiUrl}/user_login`, {
         phone,
         password,
       })
