@@ -39,7 +39,6 @@ class Register extends Component {
         state,
         address,
         email,
-        is_admin: true,
       })
       .then((res) => {
         if (res.status === 201) {
