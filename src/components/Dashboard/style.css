@@ -88,3 +88,29 @@
     background-color: #4CAF50;
     color: white;
 }
+
+@media only screen and (max-width: 400px) {
+    .dashboard {
+        width: 20em;
+        height: 30em;
+        overflow: scroll;
+    }
+
+    .display_row {
+        display: block;
+        padding-top: 1em;
+    }
+
+    .display_p {
+        border: 1px solid grey;
+        width: 15em;
+        height: 15em;
+    }
+
+    .display_p_1 {
+        border: 1px solid grey;
+        width: 15em;
+        height: 15em;
+        margin-top: 2em;
+    }
+}
