@@ -24,6 +24,7 @@ class CustomNav extends Component {
     this.state = {
       isOpen: false,
       cart: [],
+      user: "",
     };
   }
 
@@ -36,6 +37,21 @@ class CustomNav extends Component {
   logOut = () => {
     localStorage.clear("token");
     this.props.history.push("/login");
+  };
+
+  getUser = () => {
+    axios
+      .get(`${apiUrl}/user`, {
+        headers: {
+          token: token,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          user: res.data.data,
+        });
+      });
   };
 
   viewCart = () => {
@@ -65,6 +81,7 @@ class CustomNav extends Component {
 
   componentDidMount() {
     this.timer = setInterval(() => this.viewCart(), 10000);
+    this.getUser();
   }
 
   componentWillUnmount() {
@@ -72,7 +89,7 @@ class CustomNav extends Component {
   }
 
   render() {
-    const { cart } = this.state;
+    const { cart, user } = this.state;
     return (
       <React.Fragment>
         <div>
@@ -93,9 +110,13 @@ class CustomNav extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="mr-auto" navbar>
-                <NavItem className="nav_items">
-                  <Link to="/add_products">Products</Link>
-                </NavItem>
+                {user.is_admin === true ? (
+                  <NavItem className="nav_items">
+                    <Link to="/add_products">Products</Link>
+                  </NavItem>
+                ) : (
+                  ""
+                )}
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     <i className="fa fa-user user-icon"></i>
