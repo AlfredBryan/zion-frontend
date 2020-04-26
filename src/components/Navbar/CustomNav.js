@@ -111,7 +111,7 @@ class CustomNav extends Component {
                           <i className="fa fa-power-off"></i>
                         </div>
                       ) : (
-                        <Link to="/sign_in">
+                        <Link to="/login">
                           <span className="logout_button">Sign In</span>
                           <i className="fa fa fa-sign-in"></i>
                         </Link>

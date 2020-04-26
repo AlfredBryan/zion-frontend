@@ -33,11 +33,6 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    // this.getProducts();
-    // this.fetchUser();
-    if (!token) {
-      this.props.history.replace('/login');
-    }
     this.fetch = setInterval(() => this.getProducts(), 10000);
     this.timer = setInterval(() => this.fetchUser(), 10000);
   }
